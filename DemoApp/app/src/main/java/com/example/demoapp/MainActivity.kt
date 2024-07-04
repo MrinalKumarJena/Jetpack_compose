@@ -6,7 +6,10 @@ import androidx.activity.compose.ReportDrawn
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -18,8 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.demoapp.ui.theme.DemoAppTheme
 import androidx.compose.material3.Surface
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Shadow
@@ -52,6 +60,7 @@ class MainActivity : ComponentActivity() {
                     BrushToaSpanOfText()
                     Opacity()
                     BasicMarqueeSample()
+                    LayoutsDemo()
                 }
             }
         }
@@ -144,23 +153,24 @@ fun BrushToaSpanOfText(){
 fun Opacity(){
     val mycolor = listOf(Color.Red, Color.Yellow, Color.Green, Color.Blue)
     val brush = Brush.linearGradient(colors = mycolor)
-
-    buildAnnotatedString {
+    
+    val builtX = buildAnnotatedString {
         withStyle(
             SpanStyle(
-                brush = brush, alpha = .5f
+                brush = brush, alpha = 8f
             )
         ) {
             append("Text in ")
         }
         withStyle(
             SpanStyle(
-                brush = brush, alpha = 1f
+                brush = brush, alpha = 0.2f
             )
         ) {
             append("Compose")
         }
     }
+    Text(text = builtX, fontSize = 40.sp)
 }
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -171,5 +181,94 @@ fun BasicMarqueeSample() {
             modifier = Modifier.basicMarquee(),
             fontSize = 50.sp
         )
+    }
+}
+@Composable
+fun LayoutsDemo() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Yellow),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "TEXT1",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Red)
+            )
+            Text(
+                text = "TEXT2",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Green)
+            )
+            Text(
+                text = "TEXT3",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Blue)
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Cyan),
+            verticalArrangement = Arrangement.SpaceAround,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "TEXT1",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Red)
+            )
+            Text(
+                text = "TEXT2",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Green)
+            )
+            Text(
+                text = "TEXT3",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Blue)
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .background(Color.Magenta)
+        ) {
+            Text(
+                text = "TEXT1",
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(8.dp)
+                    .background(Color.Red)
+            )
+            Text(
+                text = "TEXT2",
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(8.dp)
+                    .background(Color.Green)
+            )
+            Text(
+                text = "TEXT3",
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(8.dp)
+                    .background(Color.Blue)
+            )
+        }
     }
 }
