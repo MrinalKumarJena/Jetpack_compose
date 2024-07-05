@@ -1,6 +1,9 @@
 package com.example.demoapp
 
+import android.icu.text.ListFormatter.Width
 import android.os.Bundle
+import android.util.Log
+import android.widget.Switch
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.ReportDrawn
 import androidx.activity.compose.setContent
@@ -25,12 +28,50 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material3.AlertDialogDefaults.shape
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.Switch
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -49,7 +90,7 @@ class MainActivity : ComponentActivity() {
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    Text(text = "Default Text")
+                   /* Text(text = "Default Text")
                     Text(text = "Red Text", style = TextStyle(color = Color.Red))
                     Text(text = "Italic Text", fontStyle = FontStyle.Italic)
                     Text(text = "Large Text", fontSize = 30.sp)
@@ -60,7 +101,8 @@ class MainActivity : ComponentActivity() {
                     BrushToaSpanOfText()
                     Opacity()
                     BasicMarqueeSample()
-                    LayoutsDemo()
+                    LayoutsDemo()*/
+                    UIComponentsDemo()
                 }
             }
         }
@@ -270,5 +312,104 @@ fun LayoutsDemo() {
                     .background(Color.Blue)
             )
         }
+    }
+}
+
+@Composable
+fun UIComponentsDemo() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(30.dp)) {
+            Button(onClick = { }) {
+                Text("Filled")
+            }
+            FilledTonalButton(onClick = { }, shape = RectangleShape) {
+                Text(text = "Tonal")
+            }
+            OutlinedButton(onClick = { }, shape = RoundedCornerShape(30)) {
+                Text("Outlined")
+            }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(30.dp)) {
+            TextButton(onClick = { }) {
+                Text("Text Button")
+            }
+            ElevatedButton(onClick = { }) {
+                Text(text = "Elevated")
+            }
+            IconButton(onClick = { }) {
+                Icon(Icons.Filled.Email, contentDescription = "Favorite")
+            }
+        }
+        FloatingActionButton(onClick = { }) {
+            Icon(Icons.Filled.Call, contentDescription = "")
+
+        }
+
+        Card(
+            modifier = Modifier
+                .padding(8.dp)
+                .size(width = 200.dp, height = 150.dp),
+            elevation = CardDefaults.cardElevation(10.dp)
+        ) {
+            Text(
+                text = "I am a Card",
+                modifier = Modifier.padding(55.dp)
+            )
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+            AssistChip(
+                onClick = { },
+                label = { Text("Assist Chip") }
+            )
+            SuggestionChip(
+                onClick = { Log.d("Suggestion chip", "hello world") },
+                label = { Text("Suggestion chip") }
+            )
+        }
+
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 8.dp),
+            thickness = 5.dp,
+            color = Color.Blue
+        )
+        SliderDemo()
+
+            var checked by remember { mutableStateOf(true) }
+            Switch(
+                checked = checked,
+                onCheckedChange = {
+                    checked = it
+                }
+            )
+Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+    CircularProgressIndicator(
+        progress = { .8f }
+    )
+    CircularProgressIndicator()
+}
+        Column(verticalArrangement = Arrangement.spacedBy(40.dp)){
+            LinearProgressIndicator(
+                progress = { .6f },
+            )
+            LinearProgressIndicator()
+        }
+    }
+}
+
+@Composable
+fun SliderDemo() {
+    var sliderPosition by remember { mutableFloatStateOf(0f) }
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Slider(
+            value = sliderPosition,
+            onValueChange = { sliderPosition = it }
+        )
+        Text(text = sliderPosition.toString())
     }
 }
